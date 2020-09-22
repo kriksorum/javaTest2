@@ -1,0 +1,16 @@
+<html>
+
+<body>
+    <form method = "post">
+        <button type="submit"> Сгенерировать </button>
+    </form>
+    <div>Список массивов</div>
+    {{#arrs}}
+    <div>
+        <b> {{id}} </b>
+        <span> {{unSortArr}} </span>
+        <i> {{sortArr}} </i>
+    </div>
+    {{/arrs}}
+</body>
+</html>
