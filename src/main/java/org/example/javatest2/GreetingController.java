@@ -25,6 +25,7 @@ public class GreetingController {
     @PostMapping
     public String add(Map<String, Object> model){
         ArrClass arrClass = new ArrClass(10);
+        arrClass.genArr();
         arrClass.sortArr();
         arrClassRepo.save(arrClass);
 

@@ -1,7 +1,7 @@
 package org.example.javatest2.domain;
 
 import javax.persistence.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 @Entity
 public class ArrClass {
@@ -12,67 +12,71 @@ public class ArrClass {
     private String unSortArr;
     private String sortArr;
 
+    @Transient
+    private int N;
+    @Transient
+    ArrayList<Integer> arrlist;
+
 
     public Integer getId() {
         return id;
     }
-
-    public String getUnSortArr() {
-        return unSortArr;
+    public Integer getN() {
+        return N;
     }
-
-    public void setUnSortArr(String unSortArr) {
-        this.unSortArr = unSortArr;
-    }
-
+    public String getUnSortArr() { return unSortArr; }
     public String getSortArr() {
         return sortArr;
     }
-
+    public ArrayList<Integer> getArrlist() { return arrlist; }
+    public void setN(int N){this.N = N;}
+    public void setUnSortArr(String unSortArr) {
+        this.unSortArr = unSortArr;
+    }
     public void setSortArr(String sortArr) {
         this.sortArr = sortArr;
     }
+    public void setArrlist(ArrayList<Integer> arrlist) { this.arrlist = arrlist; }
 
-    public ArrClass(String unSortArr) {
-        this.unSortArr = unSortArr;
-    }
-    public ArrClass(){
-    }
+    public ArrClass(){}
 
     public ArrClass(int N){
         unSortArr = "";
         sortArr = "";
-        Integer[] arr = new Integer[N];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) (Math.random() * 10);
-        }
-        for (int i = 0; i < arr.length; i++){
-            unSortArr += arr[i].toString();
-            if (i != arr.length - 1){
-                unSortArr += " ";
-            }
-        }
+        this.N = N;
+        arrlist = new ArrayList<>();
 
     }
+    public void genArr(){
+        for (int i = 0; i < N; i++){
+            arrlist.add((int) (Math.random() * 10));
+        }
+        unSortArr = arrlist.toString();
+        unSortArr = unSortArr.substring(1, unSortArr.length() -1).replaceAll(",","");
+    }
 
-    public void sortArr(){
-        int[] array = Arrays.stream(unSortArr.split(" ")).mapToInt(Integer::parseInt).toArray();
+    public void sortArr() {
         int buff;
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array.length - 1; j++) {
-                if (array[j] < array[j + 1]) {
-                    buff = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = buff;
+        for (int i = 0; i < arrlist.size(); i++) {
+            for (int j = 0; j < arrlist.size() - 1; j++) {
+                if (arrlist.get(j) < arrlist.get(j + 1)) {
+                    buff = arrlist.get(j);
+                    arrlist.set(j, arrlist.get(j + 1));
+                    arrlist.set(j + 1, buff);
                 }
             }
         }
-        for (int i = 0; i < array.length; i++){
-            sortArr += Integer.toString(array[i]);
-            if (i != array.length - 1){
-                unSortArr += " ";
-            }
-        }
+        sortArr = arrlist.toString();
+        sortArr = sortArr.substring(1, sortArr.length() - 1).replaceAll(",", "");
 
     }
+        public void strTolist (String str){
+            String[] arrStr = str.split(" ");
+            arrlist.clear();
+            for (String s : arrStr) {
+                arrlist.add(Integer.parseInt(s));
+            }
+        }
 }
+
+
